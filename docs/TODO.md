@@ -54,6 +54,7 @@ For historical archived content (pre-May Done items, Stage A/B/C detail, bug-fix
 27. **Stage C Commit 4.5 — UI polish (deferred).** Candidates: refresh-success toast/feedback (vs the current silent re-render), view-pane loading overlay during the 1–2 sec QBO round-trip, prominence sweep on the QBO Income mismatch warning. Deliberately deferred until office uses the system on real production data — speculating on polish needs before real usage is premature. Pick up when office surfaces specific friction. **Status questioned during 2026-05-11 grooming — confirmed still pending (none of the three candidates shipped); deferred per the "office surfaces friction" criterion.**
 13. **Xactimate bid generation via Acacia Brain.** Goal: ask Brain to produce an Xactimate bid for a job based on extracted adjuster data, return either an Xactimate-importable file or a line-item-by-line-item structured bid. Backburner — interesting capability, not immediate priority.
 16. Cameron Ashley CompanyCam texts
+41. **Bump actions/checkout from v4 to current (Node.js 24-compatible).** The docs-mirror workflow run (2026-05-28, run #5) logged a deprecation warning — `actions/checkout@v4` runs on Node.js 20, which GitHub is deprecating. Update the `uses:` pin in `.github/workflows/sync-docs.yml` to the current checkout major. LOW priority — workflow runs fine today; cosmetic until GitHub forces the runtime cutover.
 
 **Done:**
 - ✅ Stage B complete (commits 1, 2, 3, 3.5, 4, 5, 5.5, 6) — 2026-05-09 (see docs/STAGE_HISTORY.md for details)
