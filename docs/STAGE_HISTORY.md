@@ -235,6 +235,15 @@ final-invoice-calculator PWI grand-total anchoring post-mortem (@14 incomplete a
 
 - **Bug history:** PWI extraction grand-total anchoring (@15, 2026-06-01) — `total_rcv` came back PWI-stripped (Bruce Powers AR: $24,575.35 vs AR truth $28,940.16 = base $24,575.35 + $4,364.81 PWI). Downstream calc (`index.html:1064-1067`) assumes `total_rcv` is FULL RCV including PWI, so the breakdown then double-deducted uncommitted PWI → underbill. **@14 was an incomplete first attempt** — misdiagnosed as a missing PWI summary-section label and added "Code Upgrade Paid When Incurred" to §5; this changed nothing because the actual failure was grand-total *anchoring*, not a missed label. The Bruce Powers AR prints RCV three ways: PWI-INCLUSIVE per-coverage headline summaries (page-1 "Summary For Coverage A" $27,871.67 + "Coverage B" $1,068.49 = $28,940.16) AND a prominent PWI-EXCLUDED recap "Total" ($24,575.35, page 8/9); the model latched onto the recap. **@15 is the actual fix:** §5 now (a) sums the per-coverage headline "Summary For Coverage X" RCVs (PWI already baked in — the "Paid When Incurred" memo column is not a deduction), (b) falls back to detail sub-summaries including any "Paid When Incurred" block, and (c) GUARDs against using any "Line Item Total"/"Total"/grand-total recap line. Mirrors job-cost-calculator's §5 anti-grand-total guards (the gold standard, which extracted this same AR correctly). UX follow-up: TODO #42.
 
+## Archived from CLAUDE.md on 2026-06-22
+
+job-cost-calculator @28 rollback / deployed-state context, trimmed from the CLAUDE.md inventory entry when @29 (PM cost per-day model) shipped. The CLAUDE.md entry now leads with @29 and retains a compact pointer here for "what extraction code is actually deployed." See TODO #44 (clean-room rewrite) and the @24–@27 iteration narrative above (archived 2026-06-15).
+
+### job-cost-calculator — @28 rollback context (archived 2026-06-22)
+
+- **@28 — "ROLLBACK to @23 — @24-@27 prompt iterations failed; clean-room rewrite next session" (2026-06-04).** **Deployment version @28 serves the @23-state code** (commit `96b752e`, the 2026-05-25 "Phase C gold-standard extraction port"). This is NOT the original 2026-05-25 @23 ship — it is a 2026-06-04 rollback to @23's code under the next version label. The @24–@27 prompt iterations all failed the Kelsey Bonnell smoke test and were reverted; the production prompt is back to its pre-@24 (deterministic ~12% Kelsey failure) state pending the clean-room rewrite (TODO #44).
+- **@29 (2026-06-22) was built on top of this @28 code** — the PM cost change is in `index.html`'s `calculateCosts()` only and does not touch the extraction prompt, so the deployed extraction prompt remains the @23-state described above.
+
 ---
 
 ## Archived from root CHANGELOG.md on 2026-05-13
